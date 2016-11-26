@@ -1,43 +1,51 @@
 package com.gatar.Service;
 
+import com.gatar.DataTransferObject.NodeDTO;
+import com.gatar.Model.Node;
+
 public interface TreeService {
     /**
      * Get all tree as String containing data in JSON form, which are readable for client to read and show.
      * @return String containing JSON with tree data
      */
-    String getTree();
+    NodeDTO getTree();
 
     /**
      * Proceed switch one node with all connected to it branch to other node.
      * @param nodeId id of node which will be move
      * @param newBranchNodeId id of target node, which will be new parent for moved node
+     * @return true - process done, false - one of nodes not exist
      */
-    void switchBranch(int nodeId, int newBranchNodeId);
+    boolean switchBranch(int nodeId, int newBranchNodeId);
 
     /**
      * Adding a new leaf to existing node. Default node value will be calculated as values of all above nodes up to root.
      * @param nodeId id of node which will be new parent
+     * @return true - process done, false - node not exist
      */
-    void addNewLeaf(int nodeId);
+    boolean addNewLeaf(int nodeId);
 
     /**
      * Remove only selected node. Children of removing node will be pinned to parent.
      * If selected node is root, method doesn't remove it!
      * @param nodeId id of node which will be removed
+     * @return true - process done, false - node not exist or is root
      */
-    void removeNodeWithoutChildren(int nodeId);
+    boolean removeNodeWithoutChildren(int nodeId);
 
     /**
      * Remove node with all its children from the tree.
      * If selected node is root, method doesn't remove it!
      * @param nodeId id of node which will be removed.
+     * @return true - process done, false - node not exist or is root
      */
-    void removeNodeWithChildren(int nodeId);
+    boolean removeNodeWithChildren(int nodeId);
 
     /**
      * Set new value for node by its id.
      * @param nodeId id of node for set new value
      * @param value value to set
+     * @return true - process done, false - node not exist
      */
-    void changeNodeValue(int nodeId, int value);
+    boolean changeNodeValue(int nodeId, int value);
 }

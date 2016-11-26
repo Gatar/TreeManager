@@ -1,5 +1,7 @@
 package com.gatar.Model;
 
+import com.gatar.DataTransferObject.NodeDTO;
+
 import java.util.LinkedList;
 
 public interface Node {
@@ -67,7 +69,7 @@ public interface Node {
      * Parse child to needed JSON String form.
      * @return JSON value of node as String.
      */
-    String toJSON();
+    NodeDTO toNodeDTO();
 
     /**
      * Check is node a leaf.

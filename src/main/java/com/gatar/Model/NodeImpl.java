@@ -1,5 +1,7 @@
 package com.gatar.Model;
 
+import com.gatar.DataTransferObject.NodeDTO;
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -104,8 +106,9 @@ public class NodeImpl implements Node {
     }
 
     @Override
-    public String toJSON() {
-        return null;
+    public NodeDTO toNodeDTO() {
+        NodeDTO nodeDTO = new NodeDTO(getId(),getValue());
+        return nodeDTO;
     }
 
 

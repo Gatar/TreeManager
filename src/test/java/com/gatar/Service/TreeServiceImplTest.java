@@ -1,6 +1,7 @@
 package com.gatar.Service;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.gatar.DataTransferObject.NodeDTO;
 import com.gatar.Model.Node;
 import com.gatar.Model.NodeImpl;
 import com.gatar.Model.RootSingleton;
@@ -69,7 +70,32 @@ public class TreeServiceImplTest {
 
     @Test
     public void getTree() throws Exception {
+        //Prepare NodeDTO tree
+        NodeDTO rootDTO = root.toNodeDTO();
+        //Left
+        NodeDTO node2DTO = node2.toNodeDTO();
+        rootDTO.getChildren().add(node2DTO);
+        NodeDTO node3DTO = node3.toNodeDTO();
+        rootDTO.getChildren().add(node3DTO);
+        node2DTO.getChildren().add(node4.toNodeDTO());
+        node2DTO.getChildren().add(node9.toNodeDTO());
+        NodeDTO node8DTO = node8.toNodeDTO();
+        node2DTO.getChildren().add(node8DTO);
+        node8DTO.getChildren().add(node12.toNodeDTO());
+        //Right
+        NodeDTO node5DTO = node5.toNodeDTO();
+        node3DTO.getChildren().add(node5DTO);
+        NodeDTO node6DTO = node6.toNodeDTO();
+        node5DTO.getChildren().add(node6DTO);
+        node6DTO.getChildren().add(node7.toNodeDTO());
+        NodeDTO node10DTO = node10.toNodeDTO();
+        node6DTO.getChildren().add(node10DTO);
+        node10DTO.getChildren().add(node11.toNodeDTO());
 
+
+        //Check if created tree DTO valid
+        NodeDTO treeDTO = treeService.getTree();
+        Assert.assertEquals(0,treeDTO.compareTo(rootDTO));
     }
 
     @Test
