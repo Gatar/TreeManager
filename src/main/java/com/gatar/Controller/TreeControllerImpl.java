@@ -31,7 +31,12 @@ public class TreeControllerImpl implements TreeController {
     }
 
     @Override
-    public ResponseEntity<Void> removeNode(@PathVariable String nodeId) {
+    public ResponseEntity<Void> removeNodeWithChildren(@PathVariable String nodeId) {
+        return null;
+    }
+
+    @Override
+    public ResponseEntity<Void> removeNodeWithoutChildren(@PathVariable String nodeId) {
         return null;
     }
 

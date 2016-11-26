@@ -18,13 +18,21 @@ public interface TreeService {
      * Adding a new leaf to existing node. Default node value will be calculated as values of all above nodes up to root.
      * @param nodeId id of node which will be new parent
      */
-    void addLeaf(int nodeId);
+    void addNewLeaf(int nodeId);
+
+    /**
+     * Remove only selected node. Children of removing node will be pinned to parent.
+     * If selected node is root, method doesn't remove it!
+     * @param nodeId id of node which will be removed
+     */
+    void removeNodeWithoutChildren(int nodeId);
 
     /**
      * Remove node with all its children from the tree.
+     * If selected node is root, method doesn't remove it!
      * @param nodeId id of node which will be removed.
      */
-    void removeNode(int nodeId);
+    void removeNodeWithChildren(int nodeId);
 
     /**
      * Set new value for node by its id.

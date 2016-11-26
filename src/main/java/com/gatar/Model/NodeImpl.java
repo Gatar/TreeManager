@@ -1,6 +1,8 @@
 package com.gatar.Model;
 
 import java.util.LinkedList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Class containing single node values and every operations on it.
@@ -13,13 +15,28 @@ public class NodeImpl implements Node {
     private Node parent;
     private LinkedList<Node> children;
 
+
     /**
-     * Set all fields as root node.
+     * Constructor for only single use in RootSingleton for create root node
      */
-    public NodeImpl() {
-        id = 1;
+    public NodeImpl(Boolean createRoot) {
+        if(createRoot) id = 1;
+            else id = getNewNodeId();
+
         value = 1;
         parent = null;
+        children = new LinkedList<>();
+    }
+
+    /**
+     * Constructor used only for create test tree.
+     * @param value for new node
+     */
+    public NodeImpl(int value) {
+        id = getNewNodeId();
+        this.value = value;
+        parent = null;
+        children = new LinkedList<>();
     }
 
     @Override
@@ -27,6 +44,7 @@ public class NodeImpl implements Node {
         return id;
     }
 
+    @Override
     public void setId(int id) {
         this.id = id;
     }
@@ -36,6 +54,7 @@ public class NodeImpl implements Node {
         return value;
     }
 
+    @Override
     public void setValue(int value) {
         this.value = value;
     }
@@ -51,27 +70,47 @@ public class NodeImpl implements Node {
     }
 
     @Override
+    public Node getChild(int childListNumber) {
+        if(children.size() > childListNumber){
+            return  children.get(childListNumber);
+        }
+        return null;
+    }
+
+    @Override
     public LinkedList<Node> getChildren() {
         return children;
     }
 
     @Override
     public void addChild(Node child) {
+        child.setParent(this);
         children.add(child);
     }
 
     @Override
-    public void addLeaf() {
-
+    public boolean isLeaf() {
+        return children.isEmpty();
     }
 
     @Override
     public void removeChild(int nodeId) {
+        List<Node> child =
+                children.stream()
+                        .filter(n -> n.getId() == nodeId)
+                        .collect(Collectors.toList());
 
+        if(!child.isEmpty()) children.remove(child.get(0));
     }
 
     @Override
     public String toJSON() {
         return null;
+    }
+
+
+    private int getNewNodeId(){
+        RootSingleton.nodeCounterIncrement();
+        return RootSingleton.getNodeCounter();
     }
 }

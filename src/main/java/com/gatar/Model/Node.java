@@ -44,15 +44,18 @@ public interface Node {
     void addChild(Node child);
 
     /**
-     * Create new Node, add as a child and calculating its value.
-     */
-    void addLeaf();
-
-    /**
      * Search in children list for child with specified id and remove it.
+     * In case when child with this id not exist, do nothing.
      * @param nodeId node id of child for remove
      */
     void removeChild(int nodeId);
+
+    /**
+     * Get single child by it's number in children list.
+     * @param childNumber number of children do get in range including 0.
+     * @return selected child node or null if child not exist
+     */
+    Node getChild(int childNumber);
 
     /**
      * Get list with references for all children
@@ -65,4 +68,10 @@ public interface Node {
      * @return JSON value of node as String.
      */
     String toJSON();
+
+    /**
+     * Check is node a leaf.
+     * @return true - node is leaf, false - node is not leaf
+     */
+    boolean isLeaf();
 }

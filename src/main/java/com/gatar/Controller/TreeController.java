@@ -33,7 +33,14 @@ public interface TreeController {
      * @param nodeId node for delete id
      * @return Entity with empty body and automatic set HttpStatus.
      */
-    ResponseEntity<Void> removeNode(@PathVariable String nodeId);
+    ResponseEntity<Void> removeNodeWithChildren(@PathVariable String nodeId);
+
+    /**
+     * Delete only selected node, their children are set as child of parent.
+     * @param nodeId node for delete id
+     * @return Entity with empty body and automatic set HttpStatus.
+     */
+    ResponseEntity<Void> removeNodeWithoutChildren(@PathVariable String nodeId);
 
     /**
      * Change value of node by its id.
