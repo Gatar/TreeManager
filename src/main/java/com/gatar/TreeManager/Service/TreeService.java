@@ -1,7 +1,6 @@
 package com.gatar.Service;
 
 import com.gatar.DataTransferObject.NodeDTO;
-import com.gatar.Model.Node;
 
 public interface TreeService {
     /**

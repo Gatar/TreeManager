@@ -4,7 +4,6 @@ import com.gatar.Model.Node;
 import com.gatar.Model.NodeImpl;
 import com.gatar.Model.RootSingleton;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -57,20 +56,20 @@ public class TreeDFSTest {
     public void search() throws Exception {
 
         //Search for internal nodes
-        Assert.assertEquals(node2,treeDFS.search(2));
-        Assert.assertEquals(node10,treeDFS.search(10));
+        assertEquals(node2,treeDFS.search(2));
+        assertEquals(node10,treeDFS.search(10));
 
         //Search for leafs
-        Assert.assertEquals(node4,treeDFS.search(4));
-        Assert.assertEquals(node7,treeDFS.search(7));
-        Assert.assertEquals(node11,treeDFS.search(11));
+        assertEquals(node4,treeDFS.search(4));
+        assertEquals(node7,treeDFS.search(7));
+        assertEquals(node11,treeDFS.search(11));
 
         //Search for root
-        Assert.assertEquals(root,treeDFS.search(1));
+        assertEquals(root,treeDFS.search(1));
 
         //Search for non-existing nodes
-        Assert.assertEquals(null,treeDFS.search(13));
-        Assert.assertEquals(null,treeDFS.search(-15));
+        assertEquals(null,treeDFS.search(13));
+        assertEquals(null,treeDFS.search(-15));
 
     }
 

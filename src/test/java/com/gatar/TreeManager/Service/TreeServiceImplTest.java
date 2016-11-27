@@ -1,6 +1,5 @@
 package com.gatar.Service;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.gatar.DataTransferObject.NodeDTO;
 import com.gatar.Model.Node;
 import com.gatar.Model.NodeImpl;
@@ -12,8 +11,6 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
-
-import java.util.ArrayList;
 
 public class TreeServiceImplTest {
 
@@ -103,46 +100,46 @@ public class TreeServiceImplTest {
 
         //Switch leaf to leaf
         treeService.switchBranch(11, 12);
-        //Check tree integrity
+        //-----Check tree integrity
         Assert.assertEquals(node11, node12.getChild(0));
         Assert.assertNull(node10.getChild(0));
         Assert.assertEquals(node12, node11.getParent());
-        //Check leaf values correctness
+        //-----Check leaf values correctness
         Assert.assertEquals(-22, node11.getValue());
         Assert.assertEquals(0, node10.getValue());
 
         //Switch node with leafs to leaf
         treeService.switchBranch(6, 9);
-        //Check tree integrity
+        //-----Check tree integrity
         Assert.assertEquals(node6, node9.getChild(0));
         Assert.assertEquals(node7, node6.getChild(0));
         Assert.assertTrue(node5.getChildren().isEmpty());
         Assert.assertTrue(node7.getChildren().isEmpty());
         Assert.assertEquals(node10, node6.getChild(1));
         Assert.assertEquals(node9, node6.getParent());
-        //Check leaf values correctness
+        //-----Check leaf values correctness
         Assert.assertEquals(0, node6.getValue());
         Assert.assertEquals(8, node10.getValue());
 
         //Switch leaf to node with leaf
         treeService.switchBranch(7, 1);
-        //Check tree integrity
+        //-----Check tree integrity
         Assert.assertEquals(node7, root.getChild(2));
         Assert.assertNull(node7.getChild(0));
         Assert.assertNull(root.getParent());
         Assert.assertEquals(root, node7.getParent());
-        //Check leaf values correctness
+        //-----Check leaf values correctness
         Assert.assertEquals(1, node7.getValue());
         Assert.assertEquals(4, node4.getValue());
 
 
         //Switch node with leafs to node with leaf
         treeService.switchBranch(2, 3);
-        //Check tree integrity
+        //-----Check tree integrity
         Assert.assertEquals(node2, node3.getChild(1));
         Assert.assertEquals(node8, node2.getChild(1));
         Assert.assertEquals(node3, node2.getParent());
-        //Check values correctness
+        //-----Check values correctness
         Assert.assertEquals(12, node10.getValue());
         Assert.assertEquals(1, node7.getValue());
         Assert.assertEquals(0, node6.getValue());
@@ -152,9 +149,14 @@ public class TreeServiceImplTest {
 
         //Try create cyclic path
         treeService.switchBranch(3, 10);
-        //Check tree integrity - shouldn't changed
+        //-----Check tree integrity - shouldn't changed
         Assert.assertTrue(node10.isLeaf());
         Assert.assertEquals(root, node3.getParent());
+
+        //Try use wrong nodeIds
+        Assert.assertFalse(treeService.switchBranch(125,10));
+        Assert.assertFalse(treeService.switchBranch(10,120));
+        Assert.assertFalse(treeService.switchBranch(125,145));
     }
 
     @Test
@@ -179,6 +181,9 @@ public class TreeServiceImplTest {
         Assert.assertEquals(1, root.getChild(2).getValue());
         Assert.assertEquals(root, root.getChild(2).getParent());
         Assert.assertNull( root.getParent());
+
+        //Try use wrong nodeId
+        Assert.assertFalse(treeService.addNewLeaf(125));
     }
     @Test
     public void removeNodeWithoutChildren() throws Exception {
@@ -212,6 +217,9 @@ public class TreeServiceImplTest {
         treeService.removeNodeWithoutChildren(1);
         Assert.assertEquals(root, treeDFS.search(1));
         Assert.assertEquals(node3, treeDFS.search(3));
+
+        //Try use wrong nodeId
+        Assert.assertFalse(treeService.removeNodeWithoutChildren(47));
     }
 
     @Test
@@ -229,6 +237,9 @@ public class TreeServiceImplTest {
         Assert.assertNull(treeDFS.search(8));
         Assert.assertNull(treeDFS.search(12));
         Assert.assertEquals(node3, root.getChild(0));
+
+        //Try use wrong nodeId
+        Assert.assertFalse(treeService.removeNodeWithChildren(18));
     }
 
     @Test
@@ -244,6 +255,9 @@ public class TreeServiceImplTest {
         Assert.assertEquals(86, node12.getValue());
         Assert.assertEquals(101, node4.getValue());
         Assert.assertEquals(100, node2.getValue());
+
+        //Try use wrong nodeId
+        Assert.assertFalse(treeService.changeNodeValue(125,10));
     }
 
 }

@@ -1,7 +1,7 @@
 package com.gatar.Controller;
 
-import com.gatar.DataTransferObject.ChangeNodeValueDTO;
 import com.gatar.DataTransferObject.MoveBranchDTO;
+import com.gatar.DataTransferObject.ChangeNodeValueDTO;
 import com.gatar.DataTransferObject.NodeDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;

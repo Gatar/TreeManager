@@ -4,7 +4,6 @@ import com.gatar.Model.Node;
 import com.gatar.Model.RootSingleton;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.Stack;
 
 /**

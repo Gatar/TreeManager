@@ -1,32 +1,35 @@
 package com.gatar.DataTransferObject;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import java.util.LinkedList;
-import java.util.Objects;
 
 public class NodeDTO implements Comparable<NodeDTO>{
 
-    private Text text;
+    private Integer nodeId;
+    private Integer value;
     private LinkedList<NodeDTO> children = new LinkedList<>();
-
-    @JsonIgnore
-    private int nodeId;
 
     public NodeDTO() {
     }
 
-    public NodeDTO(int nodeId, Integer value) {
-        this.text = new Text(value);
+    public NodeDTO(Integer nodeId, Integer value) {
+        this.value = value;
         this.nodeId = nodeId;
     }
 
-    public Text getText() {
-        return text;
+    public Integer getNodeId() {
+        return nodeId;
     }
 
-    public void setText(Text text) {
-        this.text = text;
+    public void setNodeId(Integer nodeId) {
+        this.nodeId = nodeId;
+    }
+
+    public Integer getValue() {
+        return value;
+    }
+
+    public void setValue(Integer value) {
+        this.value = value;
     }
 
     public LinkedList<NodeDTO> getChildren() {
@@ -35,25 +38,6 @@ public class NodeDTO implements Comparable<NodeDTO>{
 
     public void setChildren(LinkedList<NodeDTO> children) {
         this.children = children;
-    }
-
-    private class Text{
-        private Integer value;
-
-        public Text() {
-        }
-
-        public Text(Integer value) {
-            this.value = value;
-        }
-
-        public Integer getValue() {
-            return value;
-        }
-
-        public void setValue(Integer value) {
-            this.value = value;
-        }
     }
 
     @Override
