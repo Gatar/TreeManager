@@ -1,8 +1,8 @@
-package com.gatar.Service;
+package com.gatar.TreeManager.Service;
 
-import com.gatar.Model.Node;
-import com.gatar.Model.NodeImpl;
-import com.gatar.Model.RootSingleton;
+import com.gatar.TreeManager.Model.Node;
+import com.gatar.TreeManager.Model.NodeImpl;
+import com.gatar.TreeManager.Model.RootSingleton;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,6 +10,9 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+/**
+ * Test tree Seep-first-search method.
+ */
 public class TreeDFSTest {
 
     TreeDFS treeDFS = new TreeDFS();
@@ -49,7 +52,7 @@ public class TreeDFSTest {
 
     @After
     public void tearDown() throws Exception {
-        RootSingleton.clearTree();
+        RootSingleton.clearTree(false);
     }
 
     @Test

@@ -1,4 +1,4 @@
-package com.gatar.DataTransferObject;
+package com.gatar.TreeManager.DataTransferObject;
 
 /**
  * DataTransferObject object used for get nodes id's to move from one to another.

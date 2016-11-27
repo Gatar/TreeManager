@@ -1,6 +1,6 @@
-package com.gatar.Model;
+package com.gatar.TreeManager.Model;
 
-import com.gatar.DataTransferObject.NodeDTO;
+import com.gatar.TreeManager.DataTransferObject.NodeDTO;
 
 import java.util.LinkedList;
 

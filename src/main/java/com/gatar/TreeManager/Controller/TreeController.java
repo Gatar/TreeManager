@@ -1,8 +1,8 @@
-package com.gatar.Controller;
+package com.gatar.TreeManager.Controller;
 
-import com.gatar.DataTransferObject.MoveBranchDTO;
-import com.gatar.DataTransferObject.ChangeNodeValueDTO;
-import com.gatar.DataTransferObject.NodeDTO;
+import com.gatar.TreeManager.DataTransferObject.MoveBranchDTO;
+import com.gatar.TreeManager.DataTransferObject.ChangeNodeValueDTO;
+import com.gatar.TreeManager.DataTransferObject.NodeDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -49,4 +49,10 @@ public interface TreeController {
      * @return Entity with empty body and automatic set HttpStatus.
      */
     ResponseEntity<Void> changeValue(@RequestBody ChangeNodeValueDTO newValue);
+
+    /**
+     * Clear tree and load test tree for test with client.
+     * @return Entity with empty body and automatic set HttpStatus.
+     */
+    ResponseEntity<Void> prepareForIntegrationTest();
 }

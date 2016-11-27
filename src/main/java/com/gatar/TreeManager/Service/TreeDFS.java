@@ -1,7 +1,7 @@
-package com.gatar.Service;
+package com.gatar.TreeManager.Service;
 
-import com.gatar.Model.Node;
-import com.gatar.Model.RootSingleton;
+import com.gatar.TreeManager.Model.Node;
+import com.gatar.TreeManager.Model.RootSingleton;
 import org.springframework.stereotype.Service;
 
 import java.util.Stack;
@@ -18,7 +18,7 @@ public class TreeDFS {
 
 
     /**
-     * Start searching.
+     * Start searching with return node reference.
      * @param targetId id of target node.
      * @return node reference if node exist, if node not exist return null
      */
@@ -52,4 +52,5 @@ public class TreeDFS {
         last++;
         stack.push(last);
     }
+
 }

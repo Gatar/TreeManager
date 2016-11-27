@@ -1,7 +1,10 @@
-package com.gatar.DataTransferObject;
+package com.gatar.TreeManager.DataTransferObject;
 
 import java.util.LinkedList;
 
+/**
+ * DTO object used for transfer tree to client by JSON.
+ */
 public class NodeDTO implements Comparable<NodeDTO>{
 
     private Integer nodeId;
@@ -43,7 +46,7 @@ public class NodeDTO implements Comparable<NodeDTO>{
     @Override
     public int compareTo(NodeDTO o) {
         int result=0;
-        if(nodeId == o.nodeId){
+        if(nodeId.equals(o.nodeId)){
             if(children.size() == o.children.size()){
                 for(int counter = 0; counter < children.size(); counter++){
                     result = children.get(counter).compareTo(o.children.get(counter));

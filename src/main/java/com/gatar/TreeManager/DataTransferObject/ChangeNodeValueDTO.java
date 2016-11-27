@@ -1,4 +1,4 @@
-package com.gatar.DataTransferObject;
+package com.gatar.TreeManager.DataTransferObject;
 
 /**
  * DataTransferObject object used for change node value basing on its id number.

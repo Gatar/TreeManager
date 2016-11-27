@@ -1,4 +1,4 @@
-package com.gatar;
+package com.gatar.TreeManager;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

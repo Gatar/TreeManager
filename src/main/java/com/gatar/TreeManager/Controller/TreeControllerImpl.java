@@ -1,9 +1,10 @@
-package com.gatar.Controller;
+package com.gatar.TreeManager.Controller;
 
-import com.gatar.DataTransferObject.MoveBranchDTO;
-import com.gatar.DataTransferObject.NodeDTO;
-import com.gatar.DataTransferObject.ChangeNodeValueDTO;
-import com.gatar.Service.TreeServiceImpl;
+import com.gatar.TreeManager.DataTransferObject.MoveBranchDTO;
+import com.gatar.TreeManager.DataTransferObject.NodeDTO;
+import com.gatar.TreeManager.DataTransferObject.ChangeNodeValueDTO;
+import com.gatar.TreeManager.Model.RootSingleton;
+import com.gatar.TreeManager.Service.TreeServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -54,5 +55,12 @@ public class TreeControllerImpl implements TreeController {
     public ResponseEntity<Void> changeValue(@RequestBody ChangeNodeValueDTO newValue) {
         boolean success = treeService.changeNodeValue(newValue.getNodeId(),newValue.getNewValue());
         return new ResponseEntity<Void>((success)? HttpStatus.OK : HttpStatus.NOT_ACCEPTABLE);
+    }
+
+    @Override
+    @RequestMapping(value = "/treemanager/prepareForIntegrationTest")
+    public ResponseEntity<Void> prepareForIntegrationTest() {
+        RootSingleton.clearTree(true);
+        return new ResponseEntity<Void>(HttpStatus.OK);
     }
 }

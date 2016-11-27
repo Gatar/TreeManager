@@ -1,4 +1,4 @@
-package com.gatar;
+package com.gatar.TreeManager;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;

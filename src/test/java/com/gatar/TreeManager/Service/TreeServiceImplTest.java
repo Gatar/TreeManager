@@ -1,9 +1,9 @@
-package com.gatar.Service;
+package com.gatar.TreeManager.Service;
 
-import com.gatar.DataTransferObject.NodeDTO;
-import com.gatar.Model.Node;
-import com.gatar.Model.NodeImpl;
-import com.gatar.Model.RootSingleton;
+import com.gatar.TreeManager.DataTransferObject.NodeDTO;
+import com.gatar.TreeManager.Model.Node;
+import com.gatar.TreeManager.Model.NodeImpl;
+import com.gatar.TreeManager.Model.RootSingleton;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -12,6 +12,9 @@ import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 
+/**
+ * Test TreeService methods with connected to them in private methods logic.
+ */
 public class TreeServiceImplTest {
 
     @InjectMocks
@@ -57,11 +60,12 @@ public class TreeServiceImplTest {
         node6.addChild(node7);
         node6.addChild(node10);
         node10.addChild(node11);
+
     }
 
     @After
     public void tearDown() throws Exception {
-        RootSingleton.clearTree();
+        RootSingleton.clearTree(false);
     }
 
 

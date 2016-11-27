@@ -1,6 +1,6 @@
-package com.gatar.Service;
+package com.gatar.TreeManager.Service;
 
-import com.gatar.DataTransferObject.NodeDTO;
+import com.gatar.TreeManager.DataTransferObject.NodeDTO;
 
 public interface TreeService {
     /**

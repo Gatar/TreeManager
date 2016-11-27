@@ -1,9 +1,9 @@
-package com.gatar.Service;
+package com.gatar.TreeManager.Service;
 
-import com.gatar.DataTransferObject.NodeDTO;
-import com.gatar.Model.Node;
-import com.gatar.Model.NodeImpl;
-import com.gatar.Model.RootSingleton;
+import com.gatar.TreeManager.DataTransferObject.NodeDTO;
+import com.gatar.TreeManager.Model.Node;
+import com.gatar.TreeManager.Model.NodeImpl;
+import com.gatar.TreeManager.Model.RootSingleton;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -65,6 +65,7 @@ public class TreeServiceImpl implements TreeService{
             node.getChildren().forEach(n -> parentNode.addChild(n));
             parentNode.removeChild(nodeId);
 
+            removeNodesFromSet(node,false);
             recalculateLeafsValues(parentNode);
             return true;
         }
@@ -78,6 +79,7 @@ public class TreeServiceImpl implements TreeService{
             Node parentNode = node.getParent();
             parentNode.removeChild(nodeId);
 
+            removeNodesFromSet(node,true);
             recalculateLeafsValues(parentNode);
             return true;
         }
@@ -140,8 +142,15 @@ public class TreeServiceImpl implements TreeService{
 
     }
 
-    private boolean doesNodeExist(int nodeId){
-        Optional<Node> nodeOptional = Optional.ofNullable(treeDFS.search(nodeId));
-        return nodeOptional.isPresent();
+    private boolean doesNodeExist(Integer nodeId){
+        return RootSingleton.getNodeIdSet().contains(nodeId);
+    }
+
+    private void removeNodesFromSet(Node node, boolean removeChildren){
+            RootSingleton.getNodeIdSet().remove(node.getId());
+
+        if(removeChildren){
+            node.getChildren().forEach(n -> removeNodesFromSet(n,true));
+        }
     }
 }
