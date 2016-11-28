@@ -1,14 +1,13 @@
-package com.gatar.TreeManager.Model;
+package com.gatar.TreeManager.Domain;
 
-import com.gatar.TreeManager.DataTransferObject.NodeDTO;
+import com.gatar.TreeManager.Model.InMemoryTree;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Class containing single node values and every operations on it.
- * By standard constructor created node has fields with root values.
+ * Single node class.
  */
 public class NodeImpl implements Node {
 
@@ -17,14 +16,12 @@ public class NodeImpl implements Node {
     private Node parent;
     private LinkedList<Node> children;
 
-
     /**
-     * Constructor for only single use in RootSingleton for create root node
+     * Constructor for normal creating Nodes.
+     * @param id for set id of new node, should be provided from {@link InMemoryTree}
      */
-    public NodeImpl(Boolean createRoot) {
-        if(createRoot) id = 1;
-            else id = getNewNodeId();
-
+    public NodeImpl(int id) {
+        this.id = id;
         value = 1;
         parent = null;
         children = new LinkedList<>();
@@ -32,10 +29,11 @@ public class NodeImpl implements Node {
 
     /**
      * Constructor used only for create test tree.
-     * @param value for new node
+     * @param value for set new node value
+     * @param id for set id of new node
      */
-    public NodeImpl(int value) {
-        id = getNewNodeId();
+    public NodeImpl(int id, int value) {
+        this.id = id;
         this.value = value;
         parent = null;
         children = new LinkedList<>();
@@ -111,9 +109,4 @@ public class NodeImpl implements Node {
         return nodeDTO;
     }
 
-
-    private int getNewNodeId(){
-        RootSingleton.nodeCounterIncrement();
-        return RootSingleton.getNodeCounter();
-    }
 }

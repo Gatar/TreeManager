@@ -1,9 +1,8 @@
 package com.gatar.TreeManager.Controller;
 
-import com.gatar.TreeManager.DataTransferObject.MoveBranchDTO;
-import com.gatar.TreeManager.DataTransferObject.NodeDTO;
-import com.gatar.TreeManager.DataTransferObject.ChangeNodeValueDTO;
-import com.gatar.TreeManager.Model.RootSingleton;
+import com.gatar.TreeManager.Domain.MoveBranchDTO;
+import com.gatar.TreeManager.Domain.NodeDTO;
+import com.gatar.TreeManager.Domain.ChangeNodeValueDTO;
 import com.gatar.TreeManager.Service.TreeServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -60,7 +59,7 @@ public class TreeControllerImpl implements TreeController {
     @Override
     @RequestMapping(value = "/treemanager/prepareForIntegrationTest")
     public ResponseEntity<Void> prepareForIntegrationTest() {
-        RootSingleton.clearTree(true);
+        treeService.prepareTreeForIntegrationTest();
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
 }

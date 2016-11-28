@@ -1,24 +1,27 @@
 package com.gatar.TreeManager.Service;
 
-import com.gatar.TreeManager.DataTransferObject.NodeDTO;
-import com.gatar.TreeManager.Model.Node;
-import com.gatar.TreeManager.Model.NodeImpl;
-import com.gatar.TreeManager.Model.RootSingleton;
+import com.gatar.TreeManager.Domain.NodeDTO;
+import com.gatar.TreeManager.Model.InMemoryTree;
+import com.gatar.TreeManager.Domain.Node;
+import com.gatar.TreeManager.Domain.NodeImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.Stack;
 
 
 @Service
 public class TreeServiceImpl implements TreeService{
 
     @Autowired
-    TreeDFS treeDFS;
+    InMemoryTree inMemoryTree;
+
+    public TreeDFS treeDFS = new TreeDFS();
+
 
     @Override
     public NodeDTO getTree() {
-        Node root = RootSingleton.getRoot();
+        Node root = inMemoryTree.getRoot();
         NodeDTO result = root.toNodeDTO();
         createTreeForTransfer(root,result);
         return result;
@@ -47,7 +50,8 @@ public class TreeServiceImpl implements TreeService{
     public boolean addNewLeaf(int nodeId) {
         if(doesNodeExist(nodeId)) {
             Node parent = treeDFS.search(nodeId);
-            Node leaf = new NodeImpl(false);
+            Integer nextNodeId = inMemoryTree.generateNextNodeId();
+            Node leaf = new NodeImpl(nextNodeId);
             leaf.setParent(parent);
             leaf.setValue(countValuesToRoot(leaf));
             parent.addChild(leaf);
@@ -98,6 +102,10 @@ public class TreeServiceImpl implements TreeService{
         return false;
     }
 
+    @Override
+    public void prepareTreeForIntegrationTest() {
+        inMemoryTree.clearTree(true);
+    }
 
     private void recalculateLeafsValues(Node node){
         if(node == null) return;
@@ -143,14 +151,57 @@ public class TreeServiceImpl implements TreeService{
     }
 
     private boolean doesNodeExist(Integer nodeId){
-        return RootSingleton.getNodeIdSet().contains(nodeId);
+        return inMemoryTree.doesNodeExist(nodeId);
     }
 
     private void removeNodesFromSet(Node node, boolean removeChildren){
-            RootSingleton.getNodeIdSet().remove(node.getId());
+        inMemoryTree.removeNodeId(node.getId());
 
         if(removeChildren){
             node.getChildren().forEach(n -> removeNodesFromSet(n,true));
         }
+    }
+
+    private class TreeDFS {
+        private Node actualNode;
+        private Stack<Integer> stack;
+
+
+        /**
+         * Start searching with return node reference.
+         * @param targetId id of target node.
+         * @return node reference if node exist, if node not exist return null
+         */
+        public Node search(int targetId) {
+            clearParameters();
+            if (targetId < 1) return null;
+
+            while (true) {
+                if (stack.empty()) return null;
+                if (actualNode.getId() == targetId) return actualNode;
+
+                if (actualNode.getChildren().size() > stack.peek()) {
+                    actualNode = actualNode.getChild(stack.peek());
+                    incrementStackValue();
+                    stack.push(0);
+                } else {
+                    stack.pop();
+                    actualNode = actualNode.getParent();
+                }
+            }
+        }
+
+        private void clearParameters(){
+            stack = new Stack<>();
+            stack.push(0);
+            actualNode = inMemoryTree.getRoot();
+        }
+
+        private void incrementStackValue(){
+            Integer last = stack.pop();
+            last++;
+            stack.push(last);
+        }
+
     }
 }

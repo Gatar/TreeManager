@@ -1,8 +1,8 @@
 package com.gatar.TreeManager.Controller;
 
-import com.gatar.TreeManager.DataTransferObject.MoveBranchDTO;
-import com.gatar.TreeManager.DataTransferObject.ChangeNodeValueDTO;
-import com.gatar.TreeManager.DataTransferObject.NodeDTO;
+import com.gatar.TreeManager.Domain.MoveBranchDTO;
+import com.gatar.TreeManager.Domain.ChangeNodeValueDTO;
+import com.gatar.TreeManager.Domain.NodeDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;

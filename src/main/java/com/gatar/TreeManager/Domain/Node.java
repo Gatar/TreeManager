@@ -1,6 +1,4 @@
-package com.gatar.TreeManager.Model;
-
-import com.gatar.TreeManager.DataTransferObject.NodeDTO;
+package com.gatar.TreeManager.Domain;
 
 import java.util.LinkedList;
 
@@ -55,7 +53,7 @@ public interface Node {
     /**
      * Get single child by it's number in children list.
      * @param childNumber number of children do get in range including 0.
-     * @return selected child node or null if child not exist
+     * @return selected child node, null if child not exist
      */
     Node getChild(int childNumber);
 
@@ -66,8 +64,8 @@ public interface Node {
     LinkedList<Node> getChildren();
 
     /**
-     * Parse child to needed JSON String form.
-     * @return JSON value of node as String.
+     * Create {@link NodeDTO} object used for transfer data
+     * @return object with DTO data
      */
     NodeDTO toNodeDTO();
 

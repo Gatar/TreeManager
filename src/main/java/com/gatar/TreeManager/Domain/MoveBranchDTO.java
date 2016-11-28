@@ -1,7 +1,7 @@
-package com.gatar.TreeManager.DataTransferObject;
+package com.gatar.TreeManager.Domain;
 
 /**
- * DataTransferObject object used for get nodes id's to move from one to another.
+ * Domain object used for get nodes id's to move from one to another.
  */
 public class MoveBranchDTO {
 

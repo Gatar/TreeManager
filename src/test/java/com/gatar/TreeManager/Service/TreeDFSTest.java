@@ -1,11 +1,14 @@
 package com.gatar.TreeManager.Service;
 
-import com.gatar.TreeManager.Model.Node;
-import com.gatar.TreeManager.Model.NodeImpl;
-import com.gatar.TreeManager.Model.RootSingleton;
+import com.gatar.TreeManager.Model.InMemoryTree;
+import com.gatar.TreeManager.Domain.Node;
+import com.gatar.TreeManager.Domain.NodeImpl;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
 
 
 import static org.junit.Assert.*;
@@ -15,24 +18,45 @@ import static org.junit.Assert.*;
  */
 public class TreeDFSTest {
 
-    TreeDFS treeDFS = new TreeDFS();
+    @InjectMocks
+    TreeDFS treeDFS;
+
+    @Spy
+    InMemoryTree inMemoryTree;
 
     //Create Nodes
-    Node root  = RootSingleton.getRoot();
-    Node node2 = new NodeImpl(3);
-    Node node3 = new NodeImpl(4);
-    Node node4 = new NodeImpl(4);
-    Node node5 = new NodeImpl(-5);
-    Node node6 = new NodeImpl(0);
-    Node node7 = new NodeImpl(0);
-    Node node8 = new NodeImpl(-15);
-    Node node9 = new NodeImpl(4);
-    Node node10 = new NodeImpl(2);
-    Node node11 = new NodeImpl(2);
-    Node node12 = new NodeImpl(-11);
+    Node root;
+    Node node2;
+    Node node3;
+    Node node4;
+    Node node5;
+    Node node6;
+    Node node7;
+    Node node8;
+    Node node9;
+    Node node10;
+    Node node11;
+    Node node12;
+
+    @Before
+    public void setupMock(){
+        MockitoAnnotations.initMocks(this);
+    }
 
     @Before
     public void setUp() throws Exception {
+        root  = inMemoryTree.getRoot();
+        node2 = new NodeImpl(inMemoryTree.generateNextNodeId(), 3);
+        node3 = new NodeImpl(inMemoryTree.generateNextNodeId(), 4);
+        node4 = new NodeImpl(inMemoryTree.generateNextNodeId(), 4);
+        node5 = new NodeImpl(inMemoryTree.generateNextNodeId(), -5);
+        node6 = new NodeImpl(inMemoryTree.generateNextNodeId(), 0);
+        node7 = new NodeImpl(inMemoryTree.generateNextNodeId(), 0);
+        node8 = new NodeImpl(inMemoryTree.generateNextNodeId(), -15);
+        node9 = new NodeImpl(inMemoryTree.generateNextNodeId(), 4);
+        node10 = new NodeImpl(inMemoryTree.generateNextNodeId(), 2);
+        node11 = new NodeImpl(inMemoryTree.generateNextNodeId(), 2);
+        node12 = new NodeImpl(inMemoryTree.generateNextNodeId(), -11);
 
         //Left
         root.addChild(node2);
@@ -52,7 +76,7 @@ public class TreeDFSTest {
 
     @After
     public void tearDown() throws Exception {
-        RootSingleton.clearTree(false);
+        inMemoryTree.clearTree(false);
     }
 
     @Test

@@ -1,6 +1,6 @@
 package com.gatar.TreeManager.Service;
 
-import com.gatar.TreeManager.DataTransferObject.NodeDTO;
+import com.gatar.TreeManager.Domain.NodeDTO;
 
 public interface TreeService {
     /**
@@ -47,4 +47,9 @@ public interface TreeService {
      * @return true - process done, false - node not exist
      */
     boolean changeNodeValue(int nodeId, int value);
+
+    /**
+     * Clear in-memory tree and load example tree data. Use for integrations tests with client api.
+     */
+    void prepareTreeForIntegrationTest();
 }

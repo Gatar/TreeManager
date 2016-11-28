@@ -1,8 +1,9 @@
 package com.gatar.TreeManager.Service;
 
-import com.gatar.TreeManager.Model.Node;
-import com.gatar.TreeManager.Model.RootSingleton;
-import org.springframework.stereotype.Service;
+import com.gatar.TreeManager.Model.InMemoryTree;
+import com.gatar.TreeManager.Domain.Node;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.Stack;
 
@@ -10,8 +11,11 @@ import java.util.Stack;
  * Class used for provide only search of one node, based on node id value.
  * Used search method - Depth-first search
  */
-@Service
+@Component
 public class TreeDFS {
+
+    @Autowired
+    InMemoryTree inMemoryTree;
 
     private Node actualNode;
     private Stack<Integer> stack;
@@ -44,7 +48,7 @@ public class TreeDFS {
     private void clearParameters(){
         stack = new Stack<>();
         stack.push(0);
-        actualNode = RootSingleton.getRoot();
+        actualNode = inMemoryTree.getRoot();
     }
 
     private void incrementStackValue(){

@@ -1,7 +1,7 @@
-package com.gatar.TreeManager.DataTransferObject;
+package com.gatar.TreeManager.Domain;
 
 /**
- * DataTransferObject object used for change node value basing on its id number.
+ * Domain object used for change node value basing on its id number.
  */
 public class ChangeNodeValueDTO {
 
