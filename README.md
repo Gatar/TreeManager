@@ -19,7 +19,7 @@ Application is designed to work on Tomcat server. You could import project folde
 You can use IDE or Maven in command line for make package:
 
 ```
-maven package
+mvn package
 ```
 
 ## Running the tests
@@ -31,7 +31,7 @@ TreeClient, console client for this WebAPI, provides integration tests, which co
 
 Running tests 
 ```
-maven test
+mvn test
 ```
 
 ### Break down into end to end tests
