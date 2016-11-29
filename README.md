@@ -11,12 +11,11 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-Application is designed to work on Tomcat server. 
+Application is designed to work on Tomcat server. You could import project folder to any IDE you want.
 
 
 ### Installing
 
-To build .war file You must provide database to make integration test (od turn off them), as is described below.
 You can use IDE or Maven in command line for make package:
 
 ```
@@ -54,6 +53,7 @@ Default package file is .war, which could be send directly to server. By default
 ### Tree Manage options
 
 WebAPI provides series of possible modifications tree structure, which can be accesed via REST requests. 
+
 1. Add new leaf to exising node, require node id in path
  *server_path/**__treemanager/addLeaf/{nodeId}__*
 
@@ -71,6 +71,7 @@ WebAPI provides series of possible modifications tree structure, which can be ac
 
 ### Other options
 Other options not influenting directly on existing tree structure.
+
 1. Save tree into internal H2 database as Adjacency List.
 *server_path/**__treemanager/saveToInternalDatabase__*
 
