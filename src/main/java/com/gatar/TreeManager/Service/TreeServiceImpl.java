@@ -16,9 +16,6 @@ public class TreeServiceImpl implements TreeService{
     @Autowired
     InMemoryTree inMemoryTree;
 
-    public TreeDFS treeDFS = new TreeDFS();
-
-
     @Override
     public NodeDTO getTree() {
         Node root = inMemoryTree.getRoot();
@@ -30,8 +27,8 @@ public class TreeServiceImpl implements TreeService{
     @Override
     public boolean switchBranch(int nodeId, int newBranchNodeId) {
         if(doesNodeExist(nodeId) && doesNodeExist(newBranchNodeId)) {
-            Node transferNode = treeDFS.search(nodeId);
-            Node targetNode = treeDFS.search(newBranchNodeId);
+            Node transferNode = searchNodeByDFS(nodeId);
+            Node targetNode = searchNodeByDFS(newBranchNodeId);
             Node transferNodeParent = transferNode.getParent();
 
             if (isCreateAcyclic(transferNode, targetNode)) {
@@ -49,7 +46,7 @@ public class TreeServiceImpl implements TreeService{
     @Override
     public boolean addNewLeaf(int nodeId) {
         if(doesNodeExist(nodeId)) {
-            Node parent = treeDFS.search(nodeId);
+            Node parent = searchNodeByDFS(nodeId);
             Integer nextNodeId = inMemoryTree.generateNextNodeId();
             Node leaf = new NodeImpl(nextNodeId);
             leaf.setParent(parent);
@@ -63,7 +60,7 @@ public class TreeServiceImpl implements TreeService{
     @Override
     public boolean removeNodeWithoutChildren(int nodeId) {
         if  (!isRoot(nodeId) && doesNodeExist(nodeId)) {
-            Node node = treeDFS.search(nodeId);
+            Node node = searchNodeByDFS(nodeId);
             Node parentNode = node.getParent();
 
             node.getChildren().forEach(n -> parentNode.addChild(n));
@@ -79,7 +76,7 @@ public class TreeServiceImpl implements TreeService{
     @Override
     public boolean removeNodeWithChildren(int nodeId) {
         if  (!isRoot(nodeId) && doesNodeExist(nodeId)) {
-            Node node = treeDFS.search(nodeId);
+            Node node = searchNodeByDFS(nodeId);
             Node parentNode = node.getParent();
             parentNode.removeChild(nodeId);
 
@@ -93,7 +90,7 @@ public class TreeServiceImpl implements TreeService{
     @Override
     public boolean changeNodeValue(int nodeId, int value) {
         if(doesNodeExist(nodeId)){
-            Node node = treeDFS.search(nodeId);
+            Node node = searchNodeByDFS(nodeId);
             node.setValue(value);
 
             if (!node.isLeaf()) recalculateLeafsValues(node);
@@ -107,8 +104,19 @@ public class TreeServiceImpl implements TreeService{
         inMemoryTree.clearTree(true);
     }
 
+    @Override
+    public void saveTreeInInternalDatabase() {
+        inMemoryTree.saveTreeInH2Database(inMemoryTree.getRoot());
+    }
+
+    @Override
+    public void loadTreeFromInternalDatabase() {
+        inMemoryTree.loadTreeFromH2Database();
+    }
+
     private void recalculateLeafsValues(Node node){
         if(node == null) return;
+        if(node.isRoot() && node.getChildren().isEmpty()) return;
         if(node.isLeaf()) node.setValue(countValuesToRoot(node));
 
         node.getChildren().stream()
@@ -161,47 +169,34 @@ public class TreeServiceImpl implements TreeService{
             node.getChildren().forEach(n -> removeNodesFromSet(n,true));
         }
     }
+    
 
-    private class TreeDFS {
-        private Node actualNode;
-        private Stack<Integer> stack;
+    public Node searchNodeByDFS(int targetId) {
+        Node actualNode = inMemoryTree.getRoot();
+        Stack<Integer> stack = new Stack<>();
+        stack.push(0);        
 
+        if (targetId < 1) return null;
 
-        /**
-         * Start searching with return node reference.
-         * @param targetId id of target node.
-         * @return node reference if node exist, if node not exist return null
-         */
-        public Node search(int targetId) {
-            clearParameters();
-            if (targetId < 1) return null;
+        while (true) {
+            if (stack.empty()) return null;
+            if (actualNode.getId() == targetId) return actualNode;
 
-            while (true) {
-                if (stack.empty()) return null;
-                if (actualNode.getId() == targetId) return actualNode;
-
-                if (actualNode.getChildren().size() > stack.peek()) {
-                    actualNode = actualNode.getChild(stack.peek());
-                    incrementStackValue();
-                    stack.push(0);
-                } else {
-                    stack.pop();
-                    actualNode = actualNode.getParent();
-                }
+            if (actualNode.getChildren().size() > stack.peek()) {
+                actualNode = actualNode.getChild(stack.peek());
+                incrementStackValue(stack);
+                stack.push(0);
+            } else {
+                stack.pop();
+                actualNode = actualNode.getParent();
             }
         }
 
-        private void clearParameters(){
-            stack = new Stack<>();
-            stack.push(0);
-            actualNode = inMemoryTree.getRoot();
-        }
+    }
 
-        private void incrementStackValue(){
-            Integer last = stack.pop();
-            last++;
-            stack.push(last);
-        }
-
+    private void incrementStackValue(Stack<Integer> stack){
+        Integer last = stack.pop();
+        last++;
+        stack.push(last);
     }
 }

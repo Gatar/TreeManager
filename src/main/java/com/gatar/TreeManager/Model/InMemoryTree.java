@@ -1,15 +1,25 @@
 package com.gatar.TreeManager.Model;
 
 import com.gatar.TreeManager.Domain.Node;
+import com.gatar.TreeManager.Domain.NodeEntity;
 import com.gatar.TreeManager.Domain.NodeImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import java.util.HashSet;
+
+import java.util.*;
 
 /**
  * Class providing in-memory tree as singleton.
+ * Tree structure is root Node object with children references,
+ * who have references to their children and so on.
+ * All operations on tree are making by references to this root,
+ * but tree can be saved in internal H2 database as Adjacency List.
  */
 @Repository
 public class InMemoryTree {
+
+    @Autowired
+    H2DatabaseRepository h2DatabaseRepository;
 
     /**
      * Last created node id. Used for provide next, unique id value.
@@ -73,6 +83,52 @@ public class InMemoryTree {
     public void clearTree(boolean loadExampleTree){
         initializeEmptyTree();
         if(loadExampleTree) loadExampleTree();
+    }
+
+    /**
+     * Load nodes from internal database and recreate references between them.
+     */
+    public void loadTreeFromH2Database(){
+        List<NodeEntity> nodeEntityList = h2DatabaseRepository.findAll();
+        if(nodeEntityList.isEmpty()) return;
+        HashMap<Integer,Node> nodeMap = new HashMap<>();
+        int highestNodeId = 0;
+
+        nodeEntityList.forEach(n -> nodeMap.put(n.getId(),n.toNode()));
+
+        for(NodeEntity nodeEntity : nodeEntityList){
+            //Search for last node Id
+            int nodeH2Id = nodeEntity.getId();
+            if(highestNodeId < nodeH2Id) highestNodeId = nodeH2Id;
+
+            //Create nodes id Set
+            existingNodeIds.add(nodeH2Id);
+
+            //Create tree references
+            Node node = nodeMap.get(nodeH2Id);
+            if(!node.isRoot()) {
+                Node nodeParent = nodeMap.get(nodeEntity.getParentId());
+                node.setParent(nodeParent);
+                nodeParent.addChild(node);
+            }
+        }
+
+        root = nodeMap.get(1);
+        nodeIdCounter = highestNodeId;
+    }
+
+    /**
+     * Save tree in internal database with use {@link NodeEntity} as entity
+     * @param node
+     */
+    public void saveTreeInH2Database(Node node){
+       if(node.isRoot()) h2DatabaseRepository.deleteAll();
+
+        h2DatabaseRepository.save(node.toNodeH2());
+
+        for(Node nodeChild : node.getChildren()){
+            saveTreeInH2Database(nodeChild);
+        }
     }
 
     private void initializeEmptyTree(){

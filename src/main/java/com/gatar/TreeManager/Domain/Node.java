@@ -7,23 +7,23 @@ public interface Node {
      * Get id of node
      * @return int value of id
      */
-    int getId();
+    Integer getId();
 
     /**
      * Set id value of node.
      */
-    void setId(int value);
+    void setId(Integer value);
 
     /**
      * Get integer value saved in node.
      * @return int value
      */
-    int getValue();
+    Integer getValue();
 
     /**
      * Set integer value saved in node.
      */
-    void setValue(int value);
+    void setValue(Integer value);
 
     /**
      * Get parent node.
@@ -70,8 +70,20 @@ public interface Node {
     NodeDTO toNodeDTO();
 
     /**
+     * Create {@link NodeEntity} object used for save data in in-memory H2 database
+     * @return object with DTO data
+     */
+    NodeEntity toNodeH2();
+
+    /**
      * Check is node a leaf.
      * @return true - node is leaf, false - node is not leaf
      */
     boolean isLeaf();
+
+    /**
+     * Check is node a root.
+     * @return true - node is root, false - node isn't a root
+     */
+    boolean isRoot();
 }

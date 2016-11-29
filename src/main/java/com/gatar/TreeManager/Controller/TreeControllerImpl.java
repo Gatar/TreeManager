@@ -62,4 +62,19 @@ public class TreeControllerImpl implements TreeController {
         treeService.prepareTreeForIntegrationTest();
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
+
+    @Override
+    @RequestMapping(value = "/treemanager/saveToInternalDatabase")
+    public ResponseEntity<Void> saveTreeInInternalDatabase() {
+        treeService.saveTreeInInternalDatabase();
+        return new ResponseEntity<Void>(HttpStatus.OK);
+    }
+
+    @Override
+    @RequestMapping(value = "/treemanager/loadFromInternalDatabase")
+    public ResponseEntity<Void> loadTreeFromInternalDatabase() {
+        treeService.loadTreeFromInternalDatabase();
+        return new ResponseEntity<Void>(HttpStatus.OK);
+    }
+
 }

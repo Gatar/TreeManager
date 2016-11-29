@@ -11,8 +11,8 @@ import java.util.stream.Collectors;
  */
 public class NodeImpl implements Node {
 
-    private int id;
-    private int value;
+    private Integer id;
+    private Integer value;
     private Node parent;
     private LinkedList<Node> children;
 
@@ -40,24 +40,25 @@ public class NodeImpl implements Node {
     }
 
     @Override
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
     @Override
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
     @Override
-    public int getValue() {
+    public Integer getValue() {
         return value;
     }
 
     @Override
-    public void setValue(int value) {
+    public void setValue(Integer value) {
         this.value = value;
     }
+
 
     @Override
     public Node getParent() {
@@ -94,6 +95,11 @@ public class NodeImpl implements Node {
     }
 
     @Override
+    public boolean isRoot() {
+        return id.equals(1);
+    }
+
+    @Override
     public void removeChild(int nodeId) {
         List<Node> child =
                 children.stream()
@@ -105,8 +111,13 @@ public class NodeImpl implements Node {
 
     @Override
     public NodeDTO toNodeDTO() {
-        NodeDTO nodeDTO = new NodeDTO(getId(),getValue());
-        return nodeDTO;
+        return new NodeDTO(getId(),getValue());
+    }
+
+    @Override
+    public NodeEntity toNodeH2(){
+        Integer parentId = (parent==null) ? null : parent.getId();
+        return new NodeEntity(id,value,parentId);
     }
 
 }

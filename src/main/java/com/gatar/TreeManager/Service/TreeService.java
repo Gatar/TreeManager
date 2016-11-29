@@ -1,8 +1,17 @@
 package com.gatar.TreeManager.Service;
 
+import com.gatar.TreeManager.Domain.Node;
 import com.gatar.TreeManager.Domain.NodeDTO;
 
 public interface TreeService {
+
+    /**
+     * Start searching with return node reference.
+     * @param targetId id of target node.
+     * @return node reference if node exist, if node not exist return null
+     */
+    Node searchNodeByDFS(int targetId);
+
     /**
      * Get all tree as String containing data in JSON form, which are readable for client to read and show.
      * @return String containing JSON with tree data
@@ -52,4 +61,14 @@ public interface TreeService {
      * Clear in-memory tree and load example tree data. Use for integrations tests with client api.
      */
     void prepareTreeForIntegrationTest();
+
+    /**
+     * Save in-memory tree structure into internal H2 database.
+     */
+    void saveTreeInInternalDatabase();
+
+    /**
+     * Load to in-memory tree structure saved in internal H2 database
+     */
+    void loadTreeFromInternalDatabase();
 }

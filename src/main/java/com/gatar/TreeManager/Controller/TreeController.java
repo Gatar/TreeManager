@@ -55,4 +55,16 @@ public interface TreeController {
      * @return Entity with empty body and automatic set HttpStatus.
      */
     ResponseEntity<Void> prepareForIntegrationTest();
+
+    /**
+     * Save in-memory tree structure into internal H2 database.
+     * @return Entity with empty body and automatic set HttpStatus.
+     */
+    ResponseEntity<Void> saveTreeInInternalDatabase();
+
+    /**
+     * Load to in-memory tree structure saved in internal H2 database
+     * @return Entity with empty body and automatic set HttpStatus.
+     */
+    ResponseEntity<Void> loadTreeFromInternalDatabase();
 }
